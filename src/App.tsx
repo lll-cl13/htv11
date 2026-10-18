@@ -316,7 +316,7 @@ export default function App() {
           </div>
 
           <div className="text-xs px-3 py-1 rounded bg-[#161a20] border border-[#242a33] text-[#8a909c]">
-            Frontend Demo • React + TS
+            Demo • React + TS
           </div>
         </div>
       </header>

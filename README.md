@@ -2,7 +2,7 @@
 
 AI-powered movement monitoring system (frontend prototype).
 
-## Project Idea (rephrased)
+## Project Idea
 
 Develop an AI-powered monitoring system that uses a camera and speaker to:
 - Collect movement data from people or the environment.
@@ -11,20 +11,19 @@ Develop an AI-powered monitoring system that uses a camera and speaker to:
 - Determine when warnings or alerts are needed.
 - Deliver alerts through a speaker using sounds, notifications, or spoken messages.
 
-## Stack (as specified)
+## Stack
 - Frontend: React + TypeScript + Tailwind CSS
 - speechService: Web Speech API (speech.js equivalent)
 - AI: Simulated in-browser (replicates Python + OpenCV motion detection via canvas frame differencing)
 - Backend / DB: Not required — fully self-contained frontend demo. (In real deployment: Express + Supabase + Python OpenCV service)
 
-## Workflow (implemented)
+## Workflow
 1. Data Collection — Live camera feed captures frames
 2. Data Analysis — JS motion detection + heuristics simulate AI
 3. Warning Detection — Rules detect spikes, low activity, high sustained movement
 4. Warning Delivery — Auto spoken alerts via speechSynthesis + visual alert log ("Organized Notes")
 
-## Languages & CS Techniques Used
-
+## Languages & Techniques Used
 ### Languages
 - **TypeScript** — strong typing with interfaces (`Alert`, `MovementData`)
 - **JavaScript (ES2022)** — core logic, browser APIs
@@ -37,7 +36,7 @@ Develop an AI-powered monitoring system that uses a camera and speaker to:
 - WebRTC: `navigator.mediaDevices.getUserMedia()`
 - Web Speech API: `speechSynthesis` + `SpeechSynthesisUtterance`
 
-### Computer Science Techniques
+### Techniques
 | Area                    | Technique                                      | Why it matters |
 |-------------------------|------------------------------------------------|----------------|
 | **Computer Vision**     | Frame differencing (pixel RGB comparison)     | Simulates OpenCV motion detection in browser |

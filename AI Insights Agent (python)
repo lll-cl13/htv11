@@ -1,0 +1,47 @@
+import os
+import pandas as pd
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from sqlalchemy import create_engine
+from google import genai
+
+# Database Connection String
+DATABASE_URL = "postgresql+psycopg2://tsdbadmin:g71qo4kzaizagqks@vqtomzxhlw.d3bwqrnofk.tsdb.cloud.timescale.com:34732/tsdb?sslmode=require"
+engine = create_engine(DATABASE_URL)
+
+# Initialize Gemini Client
+client = genai.Client(api_key="AQ.Ab8RN6JoGEqhxTq6pEuvIbeo-7dyctYaZn64D-bmb_HG6O45pQ")
+
+app = FastAPI(title="Fall Detection Backend & Insights API")
+
+class CameraUpdate(BaseModel):
+    device: str
+    status: str  # 'person in frame', 'person out of frame', or 'falling'
+
+@app.get("/")
+def root():
+    return {"status": "Backend API is running!"}
+
+# Insights Results
+@app.get("/api/insights")
+def get_insights():
+    try:
+        query = "SELECT time, device, status FROM conditions ORDER BY time DESC LIMIT 10;"
+        df = pd.read_sql(query, engine)
+        
+        if df.empty:
+            return {"message": "No data recorded in conditions table yet."}
+
+        prompt = f"Analyze the following recent camera logs for a fall-detection hackathon project and provide a brief safety assessment:\n\n{df.to_string()}"
+
+        response = client.models.generate_content(
+            model="gemini-flash-latest", # Use a standard model name
+            contents=prompt
+        )
+
+        return {
+            "recent_logs": df.to_dict(orient="records"),
+            "ai_analysis": response.text
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
